@@ -1,0 +1,33 @@
+<div class="mainContainer">
+    <div class="container">
+        <h1>Current Weather data</h1>
+        <div class="weatherInfo">
+            <form action="/" method="POST">
+                <label for="location">Location: </label>
+                <input class="input" type="text" name="location">
+                <br>
+                <input class="btn" type="submit" value="send">
+            </form>
+            {{!-- for each item in data(object) --}}
+            <ul class="list"> 
+                {{#each data}} 
+                    <li class="list">{{@key}} : {{this}}</li>
+                {{/each}}
+            </ul>
+            <img src="{{iconUrl}}" alt="weather icon">
+        </div>
+    </div>
+</div>
+
+{{!-- <div class="container">
+    <h1 class="text-light">Weather App</h1>
+    <h2>Location: {{loc}}</h2>
+    <h2>Condition: {{cond}}</h2>
+    <h2 class="temp">Temperature: {{temp}}</h2>
+</div> --}}
+
+
+
+{{!-- Data that we get from the API will show up here --}}
+{{!-- <p>{{data}}</p>  --}}
+
