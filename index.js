@@ -8,7 +8,7 @@ const app = express();
 //Tell express that this path is static content for the client
 //Use path to join these tow paths
 
-const getWeather = require("./lib/getWeather"); // Import the getWeather function
+const getWeatherFunction = require("./lib/getWeather"); // Import the getWeather function
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -39,15 +39,28 @@ app.get('/wind', (req, res) =>{
 app.post('/wind', async(req, res) => {
     let location = req.body.location;
     console.log(location)
-    let data = await getWeather(location); // data will be the weather information
+    let data = await getWeatherFunction.getWeather(location); // data will be the weather information
     let wind = data.wind.speed;
     res.render('windspeed', {data: {location, wind}});
+});
+app.get('/future', (req, res) =>{
+    // let location = req.body.location;
+    // let data = await getWeather(location);
+    // let wind = data.wind.speed;
+    res.render('predictedWeather');
+});
+
+app.post('/future', async(req, res) => {
+    let location = req.body.location;
+    let data = await getWeatherFunction.predictedWeather(location); // data will be the weather information
+    console.log(location)
+    let temp = data.list[0].main.temp;
+    res.render('predictedWeather', {data: {location, temp}});
 });
 
 app.post('/', async(req, res) => {
     let location = req.body.location;
-    console.log(location)
-    let data = await getWeather(location); // data will be the weather information
+    let data = await getWeatherFunction.getWeather(location); // data will be the weather information
     let temp = `${Math.ceil((data.main.temp))} °C`;
     let humidity = data.main.humidity;
     let condition = data.weather[0].description;
